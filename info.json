@@ -1,0 +1,13 @@
+{
+  "name": "only_researched_blueprints",
+  "version": "0.0.1",
+  "title": "Only reseached blueprints",
+  "author": "CosmicWolf",
+  "contact": "",
+  "homepage": "",
+  "description": "This mod changes the way underground pipes and belts work.",
+  "dependencies": [
+    "base >= 1.1.69"
+  ],
+  "factorio_version": "1.1"
+} 
