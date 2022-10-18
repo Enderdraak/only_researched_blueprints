@@ -5,7 +5,7 @@
   "author": "CosmicWolf",
   "contact": "",
   "homepage": "",
-  "description": "You can now only place blueprints down of entities that you have unlocked.",
+  "description": "You can now only place blueprints down of entities that you have researched.",
   "dependencies": [
     "base >= 1.1.70"
   ],
