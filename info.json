@@ -5,9 +5,9 @@
   "author": "CosmicWolf",
   "contact": "",
   "homepage": "",
-  "description": "This mod changes the way underground pipes and belts work.",
+  "description": "You can now only place blueprints down of entities that you have unlocked.",
   "dependencies": [
-    "base >= 1.1.69"
+    "base >= 1.1.70"
   ],
   "factorio_version": "1.1"
 } 
