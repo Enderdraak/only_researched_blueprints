@@ -9,13 +9,13 @@ local script_data = {
 local instalise_force = function(force)
     script_data.forces[force.index] = {}
     for _, tech in pairs(force.technologies) do
-        for _, effect in pairs(tech.effects) do
+        for _, effect in pairs(tech.prototype.effects) do
             if effect.type == "unlock-recipe" then
-                for _, result in pairs(game.recipe_prototypes[effect.recipe].products) do
-                    if game.item_prototypes[result.name] then
-                        if game.item_prototypes[result.name].place_result then
-                            if not script_data.forces[force.index][game.item_prototypes[result.name].place_result] then
-                                script_data.forces[force.index][game.item_prototypes[result.name].place_result.name] = tech.researched
+                for _, result in pairs(force.recipes[effect.recipe].products) do
+                    if prototypes.item[result.name] then
+                        if prototypes.item[result.name].place_result then
+                            if not script_data.forces[force.index][prototypes.item[result.name].place_result] then
+                                script_data.forces[force.index][prototypes.item[result.name].place_result.name] = tech.researched
                             end
                         end
                     end
@@ -23,7 +23,7 @@ local instalise_force = function(force)
             end
         end
     end
-    for name, entity in pairs(game.entity_prototypes) do
+    for name, entity in pairs(prototypes.entity) do
         if script_data.forces[force.index][name] == nil then
             script_data.forces[force.index][name] = true
         end
@@ -43,7 +43,7 @@ local prototype_cache = {}
 local get_prototype = function(name)
     local prototype = prototype_cache[name]
     if prototype then return prototype end
-    prototype = game.entity_prototypes[name]
+    prototype = prototypes.entity[name]
     prototype_cache[name] = prototype
     return prototype
 end
@@ -106,13 +106,13 @@ end
 
 local on_research_finished = function(event)
     local tech = event.research
-    for _, effect in pairs(tech.effects) do
+    for _, effect in pairs(tech.prototype.effects) do
         if effect.type == "unlock-recipe" then
-            for _, result in pairs(game.recipe_prototypes[effect.recipe].products) do
-                if game.item_prototypes[result.name] then
-                    if game.item_prototypes[result.name].place_result then
-                        if not script_data.forces[tech.force.index][game.item_prototypes[result.name].place_result] then
-                            script_data.forces[tech.force.index][game.item_prototypes[result.name].place_result.name] = true
+            for _, result in pairs(force.recipes[effect.recipe].products) do
+                if prototypes.item[result.name] then
+                    if prototypes.item[result.name].place_result then
+                        if not script_data.forces[tech.force.index][prototypes.item[result.name].place_result] then
+                            script_data.forces[tech.force.index][prototypes.item[result.name].place_result.name] = true
                         end
                     end
                 end
@@ -147,12 +147,12 @@ local lib = {}
 lib.get_events = function() return events end
 
 lib.on_init = function()
-  global.research = global.research or script_data
+  storage.research = storage.research or script_data
   reset_forces()
 end
 
 lib.on_load = function()
-  script_data = global.research or script_data
+  script_data = storage.research or script_data
 end
 
 lib.on_configuration_changed = function()
